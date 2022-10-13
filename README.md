@@ -1,7 +1,11 @@
 # File Lock
 A command line utility for encrypting and decrypting files.
 
-Instead of being password drvien, FileLock uses a URL-safe base64-encoded key that gets stored in the user's home directory. By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock.
+Instead of being password drvien, FileLock uses a URL-safe base64-encoded 32 byte key that gets stored in the user's home directory. This allows the user to "lock" and "unlock" files without having to use a password. Similar to how ssh keys work (except this is symmetric encryption). 
+
+The goal is to provide secure and fast encryptions that are quick and easy to manage. 
+
+By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock.
 
 ## Installation
 
