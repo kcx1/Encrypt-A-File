@@ -27,7 +27,7 @@ export PATH=$PATH:$HOME/.local/bin/filelock
 
 
 
-## Useage
+## Usage
 
 - ##### __Encryption__
 This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. By defualt, FileLock will add the extension '.enc' to the file after encrption.
