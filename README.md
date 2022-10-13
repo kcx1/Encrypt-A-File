@@ -1,13 +1,14 @@
-# Admin Management
-These scripts provide an easy way to manage various parts of the project.
+# File Lock
+A command line utility for encrypting and decrypting files.
 
-###Encryption
-- decrypt.py
-- encrypt.py
+Instead of being password drvien, FileLock uses a URL-safe base64-encoded key that gets stored in the user's home directory. By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock.
+
+### Encryption
+This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. 
 
 These allow admins to quickly encrypt or decrypt the contents of a file.
 
-######Encrypt.py
+###### Encrypt.py
     usage: [OPTIONS] encrypt a string
 
     positional arguments:
@@ -16,7 +17,7 @@ These allow admins to quickly encrypt or decrypt the contents of a file.
     options:
       -k, --key   Specify a file to use for the key 
 
-######Decrypt.py
+###### Decrypt.py
     usage: [OPTIONS] encrypt a string
 
     positional arguments:
