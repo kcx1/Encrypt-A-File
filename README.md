@@ -3,14 +3,7 @@ A command line utility for encrypting and decrypting files.
 
 Instead of being password drvien, FileLock uses a URL-safe base64-encoded key that gets stored in the user's home directory. By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock.
 
-### Encryption
-This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. By defualt, FileLock will add the extension '.enc' to the file after encrption.
-
-
-### Decryption
-To decrypt a file pass the ``` --unlock ``` option along witht the fle that you wish to decrypt. If your file has the '.enc' extention, the unlock option will remove it.
-
-###### Installation
+## Installation
 
 Even though FileLock is not yet available on pypi, you can still isntall it using pip. 
 
@@ -32,7 +25,16 @@ export PATH=$PATH:$HOME/.local/bin/filelock
 > echo  "export PATH=$PATH:$HOME/.local/bin/filelock" >> ~/.zshrc
 > ```
 
-###### Useage
+
+
+## Useage
+
+- ##### __Encryption__
+This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. By defualt, FileLock will add the extension '.enc' to the file after encrption.
+
+
+- ##### __Decryption__
+To decrypt a file pass the ``` --unlock ``` option along witht the fle that you wish to decrypt. If your file has the '.enc' extention, the unlock option will remove it.
 ```
 filelock
     usage: [OPTIONS] File to encrypt/decrypt
