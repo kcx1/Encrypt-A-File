@@ -49,4 +49,4 @@ filelock
       -u, --unlock       Use this option to decrypt the file.
       -k KEY, --key KEY  Specify a specific key to use
       --hide_extension   Do not use the '.enc' extention
-'''
+
