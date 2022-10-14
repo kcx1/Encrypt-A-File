@@ -34,14 +34,14 @@ export PATH=$PATH:$HOME/.local/bin/filelock
 ## Usage
 
 - ##### __Encryption__
-This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. By defualt, FileLock will add the extension '.enc' to the file after encrption.
+This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. However you can specify mulitple files as long as they seperated by a space. Alternatively, you can encrypt a directory recursively by passing the ``` --recursive ``` option. By defualt, FileLock will add the extension '.enc' to the file after encrption.
 
 
 - ##### __Decryption__
-To decrypt a file pass the ``` --unlock ``` option along witht the fle that you wish to decrypt. If your file has the '.enc' extention, the unlock option will remove it.
+To decrypt a file pass the ``` --unlock ``` option along witht the fle that you wish to decrypt. Just like when encrypting, you can pass multiple files or use the ``` --recursive ``` option to iterate through entire directories. If your file has the '.enc' extention, then the ``` --unlock ``` option will remove it.
 ```
 filelock
-    usage: [OPTIONS] File to encrypt/decrypt
+    Usage: [OPTIONS] File to encrypt/decrypt
 
     Quick command line utility to encrypt or decrypt files; Default behavior is to encrypt.
 
@@ -50,6 +50,7 @@ filelock
 
     options:
       -h, --help         show this help message and exit
+      -r, --recursive    Recursively encrypt or decrypt the contents of a directory.
       -u, --unlock       Use this option to decrypt the file.
       -k KEY, --key KEY  Specify a specific key to use
       --hide_extension   Do not use the '.enc' extention
