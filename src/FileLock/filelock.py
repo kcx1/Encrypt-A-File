@@ -49,6 +49,17 @@ parser.add_argument(
 
 opts = parser.parse_args()
 
+# TODO: create an env variable for Key
+
+
+# Exception Handling
+def is_file(file):
+    if not Path(file).is_file():
+        raise Exception(
+            f"{file} is either a directory or does not exist. Please check file and try again."
+        )
+    return True
+
 
 # Encrytion
 
@@ -60,10 +71,11 @@ def create_lock():
 
 
 def encrypt(lock, file):
+    # is_file(file)  # Exception handling to make sure a file is provided.
     lock.encrypt_file(file, out_file=True)  # Encrypts in place
     if opts.hide_extension:
         os.rename(file, file + ".enc")
-    print(f"File {file} has been encrypted using {opts.key or DEFAULT_KEY}")
+    print(f"Encrypting File: {file} \t with key: {opts.key or DEFAULT_KEY}")
 
 
 # Decryption
@@ -83,29 +95,37 @@ def create_unlock():
 
 def decrypt(lock, file):
 
-    key_name = opts.key or DEFAULT_KEY
+    is_file(file)  # Exception handling to make sure a file is provided.
 
-    # with open(key_name, "rb") as f:
-    #     key = f.read()
-    #     lock.set_cipher(key)
+    key_name = opts.key or DEFAULT_KEY
 
     lock.decrypt_file(file, out_file=True)
     if PurePath(file).suffix == ".enc":
         os.rename(file, file[: -len(".enc")])
-    print(f"File {file} has been decrypted using {key_name}")
+    print(f"Decrypting File: {file} \t with key: {key_name}")
 
 
 # Recursive Walk
+def recursive():
+    if opts.recursive and Path(opts.input_file).is_dir():
+        for (dirpath, dirs, files) in os.walk(opts.input_file, topdown=True):
+            if len(files) > 0:
+                for file in files:
+                    file = os.path.join(dirpath, file)
+                    yield file
+    else:
+        return opts.input_file
 
 
 # Main Program
 
 
 def main():
-    if opts.unlock:
-        decrypt(create_unlock(), opts.input_file)
-    else:
-        encrypt(create_lock(), opts.input_file)
+    for file in recursive():
+        if opts.unlock:
+            decrypt(create_unlock(), file)
+        else:
+            encrypt(create_lock(), file)
 
 
 if __name__ == "__main__":
