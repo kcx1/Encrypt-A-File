@@ -5,7 +5,7 @@ Instead of being password drvien, FileLock uses a URL-safe base64-encoded 32 byt
 
 The goal is to provide secure and fast encryptions that are quick and easy to manage. 
 
-By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock.
+By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock. Additionally, you can set an environmental variable ``` $KEY ``` to use an alternative key persistently. 
 
 ## Installation
 
