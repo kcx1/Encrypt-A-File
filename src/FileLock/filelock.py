@@ -24,6 +24,7 @@ parser.add_argument(
     "input_file",
     action="store",
     type=str,
+    nargs='*',
     help="Specify a file that you wish to encrypt"
     # TODO: Make sure that any number of files can be passed
 )
@@ -71,7 +72,7 @@ def create_lock():
 
 
 def encrypt(lock, file):
-    # is_file(file)  # Exception handling to make sure a file is provided.
+    is_file(file)  # Exception handling to make sure a file is provided.
     lock.encrypt_file(file, out_file=True)  # Encrypts in place
     if opts.hide_extension:
         os.rename(file, file + ".enc")
@@ -106,26 +107,26 @@ def decrypt(lock, file):
 
 
 # Recursive Walk
-def recursive():
-    if opts.recursive and Path(opts.input_file).is_dir():
-        for (dirpath, dirs, files) in os.walk(opts.input_file, topdown=True):
+def recursive(file_dir):
+    if opts.recursive and Path(file_dir).is_dir():
+        for (dirpath, dirs, files) in os.walk(file_dir, topdown=True):
             if len(files) > 0:
                 for file in files:
                     file = os.path.join(dirpath, file)
                     yield file
-    else:
-        return opts.input_file
+    yield file_dir
 
 
 # Main Program
 
 
 def main():
-    for file in recursive():
-        if opts.unlock:
-            decrypt(create_unlock(), file)
-        else:
-            encrypt(create_lock(), file)
+    for f in opts.input_file:
+        for file in recursive(f):
+            if opts.unlock:
+                decrypt(create_unlock(), file)
+            else:
+                encrypt(create_lock(), file)
 
 
 if __name__ == "__main__":
