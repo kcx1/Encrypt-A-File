@@ -24,9 +24,16 @@ parser.add_argument(
     "input_file",
     action="store",
     type=str,
-    nargs='*',
+    nargs="*",
     help="Specify a file that you wish to encrypt"
     # TODO: Make sure that any number of files can be passed
+)
+
+parser.add_argument(
+    "-r",
+    "--recursive",
+    action="store_true",
+    help="Recursively encrypt or decrypt the contents of a directory.",
 )
 
 parser.add_argument(
@@ -41,12 +48,6 @@ parser.add_argument(
     "--hide_extension", action="store_false", help="Do not use the '.enc' extention"
 )
 
-parser.add_argument(
-    "-r",
-    "--recursive",
-    action="store_true",
-    help="Recursively encrypt or decrypt the contents of a directory.",
-)
 
 opts = parser.parse_args()
 
