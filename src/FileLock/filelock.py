@@ -8,7 +8,7 @@ from FileLock.Encryption import Locker
 
 # Constants
 HOME = Path.home()
-DEFAULT_KEY = f"{HOME}/.keys/Default.key"
+DEFAULT_KEY = os.environ.get("$KEY") or f"{HOME}/.keys/Default.key"
 
 
 parser = argparse.ArgumentParser(
