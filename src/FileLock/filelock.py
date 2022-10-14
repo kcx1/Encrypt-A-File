@@ -40,6 +40,12 @@ parser.add_argument(
     "--hide_extension", action="store_false", help="Do not use the '.enc' extention"
 )
 
+parser.add_argument(
+    "-r",
+    "--recursive",
+    action="store_true",
+    help="Recursively encrypt or decrypt the contents of a directory.",
+)
 
 opts = parser.parse_args()
 
@@ -53,11 +59,11 @@ def create_lock():
     return Locker(key_name=opts.key or DEFAULT_KEY)
 
 
-def encrypt(lock):
-    lock.encrypt_file(opts.input_file, out_file=True)  # Encrypts in place
+def encrypt(lock, file):
+    lock.encrypt_file(file, out_file=True)  # Encrypts in place
     if opts.hide_extension:
-        os.rename(opts.input_file, opts.input_file + ".enc")
-    print(f"File {opts.input_file} has been encrypted using {opts.key or DEFAULT_KEY}")
+        os.rename(file, file + ".enc")
+    print(f"File {file} has been encrypted using {opts.key or DEFAULT_KEY}")
 
 
 # Decryption
@@ -75,7 +81,7 @@ def create_unlock():
     return Locker(key_name=opts.key or f"{HOME}/.keys/Default.key")
 
 
-def decrypt(lock):
+def decrypt(lock, file):
 
     key_name = opts.key or DEFAULT_KEY
 
@@ -83,10 +89,13 @@ def decrypt(lock):
     #     key = f.read()
     #     lock.set_cipher(key)
 
-    lock.decrypt_file(opts.input_file, out_file=True)
-    if PurePath(opts.input_file).suffix == ".enc":
-        os.rename(opts.input_file, opts.input_file[: -len(".enc")])
-    print(f"File {opts.input_file} has been decrypted using {key_name}")
+    lock.decrypt_file(file, out_file=True)
+    if PurePath(file).suffix == ".enc":
+        os.rename(file, file[: -len(".enc")])
+    print(f"File {file} has been decrypted using {key_name}")
+
+
+# Recursive Walk
 
 
 # Main Program
@@ -94,9 +103,9 @@ def decrypt(lock):
 
 def main():
     if opts.unlock:
-        decrypt(create_unlock())
+        decrypt(create_unlock(), opts.input_file)
     else:
-        encrypt(create_lock())
+        encrypt(create_lock(), opts.input_file)
 
 
 if __name__ == "__main__":
