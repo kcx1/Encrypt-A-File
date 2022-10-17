@@ -3,7 +3,7 @@ import argparse
 import os
 from pathlib import PurePath, Path
 from sys import exit
-from FileLock.Encryption import Locker
+from enc.Encryption import Locker
 
 
 # Constants
