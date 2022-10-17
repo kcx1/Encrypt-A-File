@@ -12,21 +12,21 @@ By default the key is stored at ```~/.keys/Default.key``` However, this can be c
 Even though FileLock is not yet available on pypi, you can still isntall it using pip. 
 
 ```bash
-pip install git+https://github.com/kcx1/FileLock
+pip install git+https://github.com/kcx1/Encrypt-A-File
 ```
 This will install both the FileLock package and the required dependencies. (Which are very few) Depending on how you have your environment you may need to add it to your $PATH 
 
-In my case it was installed to ``` ~/.local/bin/filelock ```
+In my case it was installed to ``` ~/.local/bin/enc ```
 
 You can do this by adding this to your shell's rc file i.e *.bashrc* or *.zshrc*
 
 ```bash
-export PATH=$PATH:$HOME/.local/bin/filelock
+export PATH=$PATH:$HOME/.local/bin/enc
 ```
 
 > **💡 TIP:** Here's a oneliner if you use a basic zsh config
 > ```bash
-> echo  "export PATH=$PATH:$HOME/.local/bin/filelock" >> ~/.zshrc
+> echo  "export PATH=$PATH:$HOME/.local/bin/enc" >> ~/.zshrc
 > ```
 
 
@@ -40,7 +40,7 @@ This is the default behavior, and only expects 1 arguemnt - The file that you wi
 - ##### __Decryption__
 To decrypt a file pass the ``` --unlock ``` option along witht the fle that you wish to decrypt. Just like when encrypting, you can pass multiple files or use the ``` --recursive ``` option to iterate through entire directories. If your file has the '.enc' extention, then the ``` --unlock ``` option will remove it.
 ```
-filelock
+enc
     Usage: [OPTIONS] File to encrypt/decrypt
 
     Quick command line utility to encrypt or decrypt files; Default behavior is to encrypt.
