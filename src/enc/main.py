@@ -26,7 +26,6 @@ parser.add_argument(
     type=str,
     nargs="*",
     help="Specify a file that you wish to encrypt"
-    # TODO: Make sure that any number of files can be passed
 )
 
 parser.add_argument(
@@ -50,8 +49,6 @@ parser.add_argument(
 
 
 opts = parser.parse_args()
-
-# TODO: create an env variable for Key
 
 
 # Exception Handling
@@ -119,8 +116,6 @@ def recursive(file_dir):
 
 
 # Main Program
-
-
 def main():
     for f in opts.input_file:
         for file in recursive(f):

@@ -1,20 +1,20 @@
 # Encrypt-A-File
 A command line utility for encrypting and decrypting files.
 
-Instead of being password drvien, FileLock uses a URL-safe base64-encoded 32 byte key that gets stored in the user's home directory. This allows the user to "lock" and "unlock" files without having to use a password. Similar to how ssh keys work (except this is symmetric encryption). 
+Instead of being password drvien, Encrypt-A-File uses a URL-safe base64-encoded 32 byte key that gets stored in the user's home directory. This allows the user to "lock" and "unlock" files without having to use a password. Similar to how ssh keys work (except this is symmetric encryption). 
 
 The goal is to provide secure and fast encryptions that are quick and easy to manage. 
 
-By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using FileLock. Additionally, you can set an environmental variable ``` $KEY ``` to use an alternative key persistently. 
+By default the key is stored at ```~/.keys/Default.key``` However, this can be changed by specifying the deisred file location when using Encrypt-A-File. Additionally, you can set an environmental variable ``` $KEY ``` to use an alternative key persistently. 
 
 ## Installation
 
-Even though FileLock is not yet available on pypi, you can still isntall it using pip. 
+Even though Encrypt-A-File is not yet available on pypi, you can still isntall it using pip. 
 
 ```bash
 pip install git+https://github.com/kcx1/Encrypt-A-File
 ```
-This will install both the FileLock package and the required dependencies. (Which are very few) Depending on how you have your environment you may need to add it to your $PATH 
+This will install both the Encrypt-A-File package and the required dependencies. (Which are very few) Depending on how you have your environment you may need to add it to your $PATH 
 
 In my case it was installed to ``` ~/.local/bin/enc ```
 
@@ -34,7 +34,7 @@ export PATH=$PATH:$HOME/.local/bin/enc
 ## Usage
 
 - ##### __Encryption__
-This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. However you can specify mulitple files as long as they seperated by a space. Alternatively, you can encrypt a directory recursively by passing the ``` --recursive ``` option. By defualt, FileLock will add the extension '.enc' to the file after encrption.
+This is the default behavior, and only expects 1 arguemnt - The file that you wish to encrypt. However you can specify mulitple files as long as they seperated by a space. Alternatively, you can encrypt a directory recursively by passing the ``` --recursive ``` option. By defualt, Encrypt-A-File will add the extension '.enc' to the file after encrption.
 
 
 - ##### __Decryption__
