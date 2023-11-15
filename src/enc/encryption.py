@@ -1,7 +1,8 @@
-from cryptography.fernet import Fernet, InvalidToken
-from pathlib import PurePath
+import sys
 from datetime import datetime
-from sys import exit
+from pathlib import PurePath
+
+from cryptography.fernet import Fernet, InvalidToken
 
 
 class Locker:
@@ -39,7 +40,7 @@ class Locker:
     def _check_keys(self):
         if self.in_mem and self._key_name:
             return self._key_name
-        elif self.in_mem:
+        if self.in_mem:
             return self._create_key()
         try:
             return self._read_key()
@@ -67,45 +68,45 @@ class Locker:
             if _path.suffix:
                 _dir, file = str(_path.parent), str(_path.name)
             else:
-                now = datetime.now().__str__()
+                now = str(datetime.now)
                 _dir, file = str(_path), "encrypted_string" + now
-            with open(_dir + file, "wb") as f:
-                f.writelines((b"Key: " + self._key, b"Encrypted String: " + result))
+            with open(_dir + file, "wb") as _file:
+                _file.writelines((b"Key: " + self._key, b"Encrypted String: " + result))
 
         return self._key, result
 
     def encrypt_file(self, file, out_file=True):
-        with open(file, "rb") as f:
-            encrypted = self._cipher.encrypt(f.read())
+        with open(file, "rb") as _file:
+            encrypted = self._cipher.encrypt(_file.read())
         if out_file:
-            with open(file, "wb") as f:
-                f.write(encrypted)
+            with open(file, "wb") as _file:
+                _file.write(encrypted)
         return encrypted.decode("utf-8")  # Return for programtic useage
 
     def decrypt_string(self, input_string, out_file=None):
         result = self._cipher.decrypt(input_string.encode())
         if out_file:
-            with open(out_file, "wb") as f:
-                f.write(result)
+            with open(out_file, "wb") as _file:
+                _file.write(result)
         return result
 
     def decrypt_file(self, file, out_file=False):
-        with open(file, "rb") as f:
+        with open(file, "rb") as _file:
             try:
-                decrypted = self._cipher.decrypt(f.read())
+                decrypted = self._cipher.decrypt(_file.read())
             except InvalidToken as err:
-                exit(err)
+                sys.exit(err)
                 # TODO: Show self.key_name so the user knows which key failed
 
         if out_file:
-            with open(file, "wb") as f:
-                f.write(decrypted)
+            with open(file, "wb") as _file:
+                _file.write(decrypted)
 
         try:
             return decrypted.decode("utf-8")
         except UnicodeDecodeError as err:
-            print('WARNING:', err)
-            print('Returning Object as Bytes')
+            print("WARNING:", err)
+            print("Returning Object as Bytes")
         return decrypted
 
 

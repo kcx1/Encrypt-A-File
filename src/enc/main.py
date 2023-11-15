@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import argparse
 import os
-from pathlib import PurePath, Path
-from sys import exit
-from enc.Encryption import Locker
+import sys
+from pathlib import Path, PurePath
 
+from enc.encryption import Locker
 
 # Constants
 HOME = Path.home()
@@ -25,7 +25,7 @@ parser.add_argument(
     action="store",
     type=str,
     nargs="*",
-    help="Specify a file that you wish to encrypt"
+    help="Specify a file that you wish to encrypt",
 )
 
 parser.add_argument(
@@ -44,7 +44,9 @@ parser.add_argument(
 )
 
 parser.add_argument(
-    "--hide_extension", action="store_false", help="Do not use the '.enc' extention"
+    "--rename",
+    action="store_true",
+    help="Add the '.enc' extention to show that the file has been encrypted.",
 )
 
 
@@ -52,9 +54,9 @@ opts = parser.parse_args()
 
 
 # Exception Handling
-def is_file(file):
+def is_file(file: str) -> bool:
     if not Path(file).is_file():
-        raise Exception(
+        raise FileNotFoundError(
             f"{file} is either a directory or does not exist. Please check file and try again."
         )
     return True
@@ -63,16 +65,16 @@ def is_file(file):
 # Encrytion
 
 
-def create_lock():
+def create_lock() -> Locker:
     if not os.path.exists(f"{HOME}/.keys/"):
         os.mkdir(f"{HOME}/.keys")
     return Locker(key_name=opts.key or DEFAULT_KEY)
 
 
-def encrypt(lock, file):
+def encrypt(lock: Locker, file: str):
     is_file(file)  # Exception handling to make sure a file is provided.
     lock.encrypt_file(file, out_file=True)  # Encrypts in place
-    if opts.hide_extension:
+    if opts.rename:
         os.rename(file, file + ".enc")
     print(f"Encrypting File: {file} \t with key: {opts.key or DEFAULT_KEY}")
 
@@ -88,12 +90,11 @@ def create_unlock():
             Please create a key or specify the key using the '--key' option
             """
         )
-        exit("No key found")
+        sys.exit("No key found")
     return Locker(key_name=opts.key or f"{HOME}/.keys/Default.key")
 
 
-def decrypt(lock, file):
-
+def decrypt(lock: Locker, file: str):
     is_file(file)  # Exception handling to make sure a file is provided.
 
     key_name = opts.key or DEFAULT_KEY
@@ -107,7 +108,7 @@ def decrypt(lock, file):
 # Recursive Walk
 def recursive(file_dir):
     if opts.recursive and Path(file_dir).is_dir():
-        for (dirpath, dirs, files) in os.walk(file_dir, topdown=True):
+        for dirpath, _, files in os.walk(file_dir, topdown=True):
             if len(files) > 0:
                 for file in files:
                     file = os.path.join(dirpath, file)
@@ -117,8 +118,8 @@ def recursive(file_dir):
 
 # Main Program
 def main():
-    for f in opts.input_file:
-        for file in recursive(f):
+    for _file in opts.input_file:
+        for file in recursive(_file):
             if opts.unlock:
                 decrypt(create_unlock(), file)
             else:
