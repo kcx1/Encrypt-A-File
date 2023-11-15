@@ -95,8 +95,7 @@ class Locker:
             try:
                 decrypted = self._cipher.decrypt(_file.read())
             except InvalidToken as err:
-                sys.exit(err)
-                # TODO: Show self.key_name so the user knows which key failed
+                sys.exit(err, self._key)
 
         if out_file:
             with open(file, "wb") as _file:
